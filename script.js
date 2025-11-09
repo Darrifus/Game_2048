@@ -197,20 +197,39 @@ function canMove() {
 }
 
 function slideRow(row) {
-  const f = row.filter(x => x !== 0);
-  const newRow = [];
+  let current = row.filter(x => x !== 0);
+  let newRow = [];
   let gain = 0;
-  for (let i = 0; i < f.length; i++) {
-    if (f[i] === f[i + 1]) {
-      const v = f[i] * 2;
-      newRow.push(v);
-      gain += v;
-      i++;
-    } else {
-      newRow.push(f[i]);
+  let changed = true;
+  
+  // рекурсивно объединяем пока есть изменения
+  while (changed) {
+    changed = false;
+    newRow = [];
+    let i = 0;
+    
+    while (i < current.length) {
+      if (i < current.length - 1 && current[i] === current[i + 1]) {
+        // объединяем
+        const merged = current[i] * 2;
+        newRow.push(merged);
+        gain += merged;
+        i += 2;
+        changed = true;
+      } else {
+        // просто перемещаем
+        newRow.push(current[i]);
+        i += 1;
+      }
     }
+    current = newRow;
   }
-  while (newRow.length < COLS) newRow.push(0);
+  
+  // заполняем нулями до нужной длины
+  while (newRow.length < COLS) {
+    newRow.push(0);
+  }
+  
   return { newRow, gain };
 }
 
@@ -292,7 +311,9 @@ function arrayEquals(a, b) {
 }
 
 function afterMove() {
-  spawnRandomTile();
+  const emptyCount = board.flat().filter(v => v === 0).length;
+  const toSpawn = Math.min(emptyCount, Math.random() < 0.25 ? 2 : 1); 
+  for (let i = 0; i < toSpawn; i++) spawnRandomTile();
   renderAll();
   saveState();
   if (!canMove()) gameOver();
@@ -345,12 +366,13 @@ function showGameOverModal() {
   input.placeholder = 'Введите имя';
 
   const save = createButton('Сохранить результат', () => {
-    if (save.dataset.saved === 'true') return; // защита от повторного нажатия
-    saveLeaderboardEntry(input.value.trim(), score);
-    save.dataset.saved = 'true'; 
-    save.disabled = true;
-    input.disabled = true;
-    save.textContent = 'Сохранено!';
+  if (save.dataset.saved === 'true') return;
+  const name = input.value.trim();
+  saveLeaderboardEntry(name, score);
+  save.dataset.saved = 'true'; 
+  save.disabled = true;
+  input.style.display = 'none';
+  p.textContent = 'Ваш рекорд сохранён';
   });
 
   const restart = createButton('Начать заново', () => {
