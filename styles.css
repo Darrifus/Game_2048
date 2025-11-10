@@ -1,3 +1,4 @@
+/* стили для всей страницы */
 body {
   font-family: Arial, sans-serif;
   background-color: #faf8ef;
@@ -8,6 +9,7 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 h1 {
@@ -16,6 +18,7 @@ h1 {
   color: #776e65;
 }
 
+/* контейнер для счета */
 #score-container {
   font-size: 24px;
   margin-bottom: 20px;
@@ -31,7 +34,7 @@ h1 {
   padding: 10px;
   border-radius: 10px;
 }
-
+/* базовые стили для всех плиток */
 .tile {
   width: 80px;
   height: 80px;
@@ -45,7 +48,7 @@ h1 {
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
 }
-
+/* стили для плиток разных значений */
 .tile.empty {
   background-color: #cdc1b4;
 }
@@ -109,7 +112,7 @@ h1 {
   color: #f9f6f2;
   font-size: 20px;
 }
-
+/* стили кнопок */
 .controls, .mobile-controls {
   margin-top: 20px;
   display: flex;
@@ -131,7 +134,7 @@ button {
 button:hover {
   background-color: #9e8b7b;
 }
-
+/* стили для модальных окон */
 .modal {
   position: fixed;
   top: 0;
@@ -142,7 +145,6 @@ button:hover {
   z-index: 1000;
 }
 
-/* Само окно модалки — чётко по центру */
 .modal-content {
   position: absolute;
   top: 50%;
@@ -158,7 +160,8 @@ button:hover {
   animation: fadeInModal 0.25s ease-out;
 }
 
-/* Анимация плавного появления */
+/* анимация плавного появления модального окна */
+
 @keyframes fadeInModal {
   from {
     opacity: 0;
@@ -186,7 +189,6 @@ th, td {
   gap: 10px;
 }
 
-/* Больше отступов между элементами */
 .modal-content h3 {
   font-size: 24px;
   margin-bottom: 15px;
@@ -199,7 +201,6 @@ th, td {
   color: #776e65;
 }
 
-/* Стиль поля ввода имени — аккуратное, но не громоздкое */
 .modal-content input {
   width: 80%;
   padding: 8px 10px;
@@ -216,7 +217,6 @@ th, td {
   box-shadow: 0 0 5px rgba(143, 122, 102, 0.6);
 }
 
-/* Кнопки — прежнего размера, просто с расстоянием между ними */
 .modal-content button {
   margin: 8px 5px;
   padding: 8px 16px;
@@ -233,8 +233,217 @@ th, td {
   background-color: #9e8b7b;
 }
 
-/* При отключении кнопки */
 .modal-content button:disabled {
   background-color: #ccc0b3;
   cursor: default;
+}
+
+.tile {
+  transition: all 0.15s ease-in-out;
+}
+/* плавная анимация плиток */
+.tile.merged {
+  animation: mergePop 0.25s ease-in-out;
+}
+
+@keyframes mergePop {
+  0% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* мобильная адаптация */
+@media (max-width: 768px) {
+  body {
+    padding: 15px;
+    justify-content: center;
+  }
+  
+  h1 {
+    font-size: 36px;
+    margin: 0 0 15px 0;
+  }
+  
+  #score-container {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .board {
+    grid-template-columns: repeat(4, 70px);
+    grid-template-rows: repeat(4, 70px);
+    gap: 8px;
+    padding: 8px;
+  }
+  
+  .tile {
+    width: 70px;
+    height: 70px;
+    font-size: 28px;
+  }
+  
+  .tile.x128,
+  .tile.x256,
+  .tile.x512 {
+    font-size: 22px;
+  }
+  
+  .tile.x1024,
+  .tile.x2048 {
+    font-size: 18px;
+  }
+  
+  .controls {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+  }
+  
+  button {
+    padding: 12px 24px;
+    font-size: 18px;
+    width: 200px;
+  }
+  
+  .modal-content {
+    padding: 20px;
+    min-width: 280px;
+  }
+  
+  .modal-content h3 {
+    font-size: 22px;
+  }
+  
+  .modal-content p {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  
+  h1 {
+    font-size: 32px;
+    margin: 0 0 10px 0;
+  }
+  
+  #score-container {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .board {
+    grid-template-columns: repeat(4, 65px);
+    grid-template-rows: repeat(4, 65px);
+    gap: 6px;
+    padding: 6px;
+  }
+  
+  .tile {
+    width: 65px;
+    height: 65px;
+    font-size: 24px;
+  }
+  
+  .tile.x128,
+  .tile.x256,
+  .tile.x512 {
+    font-size: 20px;
+  }
+  
+  .tile.x1024,
+  .tile.x2048 {
+    font-size: 16px;
+  }
+  
+  .controls {
+    margin-top: 10px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    width: 180px;
+  }
+  
+  .modal-content {
+    padding: 15px;
+    min-width: 250px;
+  }
+  
+  .modal-content h3 {
+    font-size: 20px;
+  }
+  
+  .modal-content p {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  .board {
+    grid-template-columns: repeat(4, 40px);
+    grid-template-rows: repeat(4, 40px);
+    gap: 5px;
+    padding: 5px;
+  }
+  
+  .tile {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+  
+  .tile.x128,
+  .tile.x256,
+  .tile.x512 {
+    font-size: 15px;
+  }
+  
+  .tile.x1024,
+  .tile.x2048 {
+    font-size: 12px;
+  }
+}
+
+/* стили для кнопок управления */
+.mobile-controls {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.m-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.mobile-controls button {
+  width: 40px;
+  height: 40px;
+  font-size: 15px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #8f7a66;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+}
+
+.mobile-controls button:active {
+  background-color: #7a6a58;
+  transform: scale(0.95);
+}
+
+.mobile-controls {
+  display: none;
 }
