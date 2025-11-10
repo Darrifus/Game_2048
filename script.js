@@ -340,8 +340,7 @@ function attachControls() {
   const restart = createButton('Начать заново', newGame);
   const undoBtn = createButton('Отмена хода', undo);
   const lb = createButton('Лидерборд', showLeaderboardModal);
-  const cont = createButton('Продолжить', () => { loadStateOrNew(); renderAll(); });
-  controlsEl.append(restart, undoBtn, lb, cont);
+  controlsEl.append(restart, undoBtn, lb);
 }
 
 function createButton(text, onClick) {
